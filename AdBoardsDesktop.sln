@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdBoardsDesktop", "AdBoardsDesktop\AdBoardsDesktop.csproj", "{22CAC374-A065-4449-815E-4D2B6BAB881A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestAdBoards", "UnitTestAdBoards\UnitTestAdBoards.csproj", "{A537F9DB-4B0D-4EA4-A604-A0A25104C9C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22CAC374-A065-4449-815E-4D2B6BAB881A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22CAC374-A065-4449-815E-4D2B6BAB881A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22CAC374-A065-4449-815E-4D2B6BAB881A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22CAC374-A065-4449-815E-4D2B6BAB881A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A537F9DB-4B0D-4EA4-A604-A0A25104C9C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A537F9DB-4B0D-4EA4-A604-A0A25104C9C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A537F9DB-4B0D-4EA4-A604-A0A25104C9C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A537F9DB-4B0D-4EA4-A604-A0A25104C9C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BDA7AEAD-7ED7-4E48-864B-965B9FDFB3A6}
+	EndGlobalSection
+EndGlobal
