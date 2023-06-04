@@ -8,11 +8,11 @@
       Title="AuthorizationPage">
 
     <StackPanel>
-        <Image Source="\Resources\drawable\icon_image_person.png" Width="200" Height="200"/>
+        <Image Source="\Resources\drawable\icon_image_person.png" MaxWidth="200" MaxHeight="200"/>
         <TextBlock Text="Добро пожаловать"
                    FontSize="32"
                    HorizontalAlignment="Center"
-                   Margin="0 0 0 20"/>
+                   Margin="0 0 0 10"/>
         <StackPanel  Width="350">
             <TextBlock Text="Логин:" FontSize="16"/>
             <TextBox x:Name="tbLogin"
@@ -27,7 +27,7 @@
                      Width="350"
                      MaxLength="20"/>
         </StackPanel>
-        <Separator Opacity="0" Height="50"/>
+        <Separator Opacity="0" Height="25"/>
         <StackPanel HorizontalAlignment="Center"
                         Orientation="Horizontal">
             <Button x:Name="btnSignIn"

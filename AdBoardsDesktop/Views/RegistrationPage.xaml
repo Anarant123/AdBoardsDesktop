@@ -8,59 +8,63 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="RegistrationPage">
 
-    <StackPanel>
-        <TextBlock Text="Регистрация:"
+    <ScrollViewer VerticalScrollBarVisibility="Hidden" 
+                  HorizontalScrollBarVisibility="Hidden">
+        <StackPanel>
+            <TextBlock Text="Регистрация:"
                    FontSize="32"
                    HorizontalAlignment="Center"
                    FontWeight="Bold"/>
-        <Separator Opacity="0" Height="30"/>
-        <StackPanel Width="350">
-            <TextBlock Text="Логин:" FontSize="16"/>
-            <TextBox x:Name="tbLogin" 
+            <Separator Opacity="0" Height="30"/>
+            <StackPanel Width="350">
+                <TextBlock Text="Логин:" FontSize="16"/>
+                <TextBox x:Name="tbLogin" 
                      Height="35"
                      MaxLength="30"/>
-        </StackPanel>
-        <Separator Opacity="0" Height="20"/>
-        <StackPanel Width="350">
-            <TextBlock Text="Дата рождения:" FontSize="16"/>
-            <TextBox x:Name="tbBirthday"
+            </StackPanel>
+            <Separator Opacity="0" Height="20"/>
+            <StackPanel Width="350">
+                <TextBlock Text="Дата рождения:" FontSize="16"/>
+                <TextBox x:Name="tbBirthday"
                      Tag="дд.мм.гггг"
                          Height="35"
                          MaxLength="10"/>
-        </StackPanel>
-        <Separator Opacity="0" Height="20"/>
-        <StackPanel Width="350">
-            <TextBlock Text="Телефон:" FontSize="16"/>
-            <TextBox x:Name="tbPhone"
+            </StackPanel>
+            <Separator Opacity="0" Height="20"/>
+            <StackPanel Width="350">
+                <TextBlock Text="Телефон:" FontSize="16"/>
+                <TextBox x:Name="tbPhone"
                          Height="35"
                          MaxLength="12"/>
-        </StackPanel>
-        <Separator Opacity="0" Height="20"/>
-        <StackPanel Width="350">
-            <TextBlock Text="Почта:" FontSize="16"/>
-            <TextBox x:Name="tbEmail" 
+            </StackPanel>
+            <Separator Opacity="0" Height="20"/>
+            <StackPanel Width="350">
+                <TextBlock Text="Почта:" FontSize="16"/>
+                <TextBox x:Name="tbEmail" 
                          Height="35"
                          MaxLength="99"/>
-        </StackPanel>
-        <Separator Opacity="0" Height="20"/>
-        <StackPanel Width="350">
-            <TextBlock Text="Пароль:" FontSize="16"/>
-            <PasswordBox x:Name="tbPassword1"
+            </StackPanel>
+            <Separator Opacity="0" Height="20"/>
+            <StackPanel Width="350">
+                <TextBlock Text="Пароль:" FontSize="16"/>
+                <PasswordBox x:Name="tbPassword1"
                          Height="35"
                          MaxLength="20"/>
-        </StackPanel>
-        <Separator Opacity="0" Height="20"/>
-        <StackPanel Width="350">
-            <TextBlock Text="Повтор пароля:" FontSize="16"/>
-            <PasswordBox x:Name="tbPassword2" 
+            </StackPanel>
+            <Separator Opacity="0" Height="20"/>
+            <StackPanel Width="350">
+                <TextBlock Text="Повтор пароля:" FontSize="16"/>
+                <PasswordBox x:Name="tbPassword2" 
                          Height="35"
                          MaxLength="20"/>
-        </StackPanel>
-        <Separator Opacity="0" Height="20"/>
-        <Button x:Name="btnRegister"
+            </StackPanel>
+            <Separator Opacity="0" Height="20"/>
+            <Button x:Name="btnRegister"
                 Content="Зарегистрироваться"
                 Click="btnRegister_Click"
                 Width="250"
                 Height="35"/>
-    </StackPanel>
+            <Separator Opacity="0" Height="20"/>
+        </StackPanel>
+    </ScrollViewer>
 </Page>

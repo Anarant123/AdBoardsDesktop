@@ -43,7 +43,7 @@
             </StackPanel>
         </Border>
         <StackPanel HorizontalAlignment="Left"
-                        Margin="20 10 20 10" Width="700">
+                        Margin="10 0 10 10" Width="700">
             <TextBlock Text="Название:" FontSize="16"/>
             <TextBox x:Name="tbName"
                          Width="700"
@@ -51,12 +51,13 @@
             <Separator Opacity="0" Height="10"/>
             <TextBlock Text="Описание:" FontSize="16"/>
             <TextBox x:Name="tbDescription"
-                         Width="700" Height="300"
-                         HorizontalAlignment="Left"
-                         TextWrapping="Wrap"
-                         VerticalContentAlignment="Top"
-                         Padding="15 5 15 5"
-                         TextAlignment="Justify"/>
+                     AcceptsReturn="True"
+                     Width="700" Height="250"
+                     HorizontalAlignment="Left"
+                     TextWrapping="Wrap"
+                     VerticalContentAlignment="Top"
+                     Padding="15 5 15 5"
+                     TextAlignment="Justify"/>
             <Separator Opacity="0" Height="10"/>
             <DockPanel LastChildFill="False" HorizontalAlignment="Center">
                 <StackPanel DockPanel.Dock="Left">
