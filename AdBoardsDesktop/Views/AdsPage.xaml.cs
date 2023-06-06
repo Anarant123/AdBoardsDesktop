@@ -69,10 +69,10 @@ namespace AdBoardsDesktop.Views
             //}
         }
 
-        private void lvAds_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void lvAds_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Context.AdNow = new Ad();
-            Context.AdNow = (lvAds.SelectedItem as Ad);
+            Context.AdNow = await Context.Api.GetAd((lvAds.SelectedItem as Ad).Id);
 
             this.NavigationService.Navigate(new Uri("Views/AdPage.xaml", UriKind.Relative));
         }

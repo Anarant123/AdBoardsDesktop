@@ -75,8 +75,7 @@ namespace AdBoardsDesktop.Views
             Context.AdNow = new Ad();
             Context.AdNow = (lvAds.SelectedItem as Ad);
 
-            AdPage adPage = new AdPage(true);
-            this.NavigationService.Navigate(adPage);
+            this.NavigationService.Navigate(new Uri("Views/MyAdPage.xaml", UriKind.Relative));
         }
 
         private void tbPriceFrom_PreviewTextInput(object sender, TextCompositionEventArgs e)

@@ -1,4 +1,6 @@
 ﻿using AdBoardsDesktop.Models.db;
+using AdBoards.ApiClient.Contracts.Requests;
+using AdBoards.ApiClient.Extensions;
 using System;
 using System.Net.Http;
 using System.Windows;
@@ -25,78 +27,54 @@ namespace AdBoardsDesktop.Views
             imgAd.Source = new BitmapImage(new Uri(Context.AdNow.PhotoName));
             imgSalesman.Source = new BitmapImage(new Uri(Context.AdNow.Person.PhotoName));
             lblSalesman.Text = Context.AdNow.Person.Name;
-        }
 
-        public AdPage(bool isFavorites)
-        {
-            InitializeComponent();
-
-            //isF = isFavorites;
-            //btnAddToFavorite.Content = "Удалить из избранного";
-
-            //tbName.Text = Context.AdNow.Name;
-            //tbDescription.Text = Context.AdNow.Description;
-            //tbPhone.Text = Context.AdNow.Person.Phone;
-            //tbCity.Text = Context.AdNow.City;
-            //tbPrice.Text = Context.AdNow.Price.ToString();
-            //imgAd.Source = LoadImage.Load(Context.AdNow.Photo);
-            //imgSalesman.Source = LoadImage.Load(Context.AdNow.Person.Photo);
-            //lblSalesman.Text = Context.AdNow.Person.Name;
+            isF = Context.AdNow.IsFavorite;
+            if (isF)
+                btnAddToFavorite.Content = "Удалить из избранного";
         }
 
         private async void btnAddToFavorite_Click(object sender, RoutedEventArgs e)
         {
-            //if (isF)
-            //{
-            //    var httpClient = new HttpClient();
-            //    using HttpResponseMessage response = await httpClient.DeleteAsync($"http://localhost:5228/Favorites/Delete?AdId={Context.AdNow.Id}&PersonId={Context.UserNow.Id}");
-            //    var jsonResponse = await response.Content.ReadAsStringAsync();
+            if (isF)
+            {
+                var result = await Context.Api.DeleteFromFavorites(Context.AdNow.Id);
 
-            //    this.NavigationService.Navigate(new Uri("Views/FavoritesAdsPage.xaml", UriKind.Relative));
-            //}
-            //else
-            //{
-            //    if (Context.UserNow == null)
-            //    {
-            //        this.NavigationService.Navigate(new Uri("Views/AuthorizationPage.xaml", UriKind.Relative));
-            //        return;
-            //    }
+                if (!result)
+                {
+                    MessageBox.Show("Что то пошло не так...");
+                    return;
+                }
+                MessageBox.Show("Объявление удалено из избранного");
+                btnAddToFavorite.Content = "Добавить в избранное";
+                isF = false;
+            }
+            else
+            {
+                var result = await Context.Api.AddToFavorites(Context.AdNow.Id);
 
-            //    var httpClient = new HttpClient();
-            //    var request = new HttpRequestMessage(HttpMethod.Post, $"http://localhost:5228/Favorites/Addition?AdId={Context.AdNow.Id}&PersonId={Context.UserNow.Id}");
-            //    var response = await httpClient.SendAsync(request);
+                if (!result)
+                {
+                    MessageBox.Show("Что то пошло не так...");
+                    return;
+                }
 
-
-            //    if (response.IsSuccessStatusCode)
-            //    {
-            //        MessageBox.Show("Объявление добавленно в избранное");
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("Объявление уже в избранном");
-            //    }
-            //}
+                MessageBox.Show("Объявление добавленно в избранное");
+                btnAddToFavorite.Content = "Удалить из избранного";
+                isF = true;
+            }
         }
 
         private async void btnToComplain_Click(object sender, RoutedEventArgs e)
         {
-            //if (Context.UserNow == null)
-            //{
-            //    this.NavigationService.Navigate(new Uri("Views/AuthorizationPage.xaml", UriKind.Relative));
-            //    return;
-            //}
-            //var httpClient = new HttpClient();
-            //var request = new HttpRequestMessage(HttpMethod.Post, $"http://localhost:5228/Complaint/Addition?AdId={Context.AdNow.Id}&PersonId={Context.UserNow.Id}");
-            //var response = await httpClient.SendAsync(request);
+            var result = await Context.Api.AddToComplaints(Context.AdNow.Id);
 
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    MessageBox.Show("Жалоба успешно отправленна");
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Вы уже пожаловались");
-            //}
+            if (!result)
+            {
+                MessageBox.Show("Вы уже пожаловались");
+                return;
+            }
+
+            MessageBox.Show("Жалоба успешно отправленна");
         }
     }
 }
