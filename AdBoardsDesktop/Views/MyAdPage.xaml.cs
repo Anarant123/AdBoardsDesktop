@@ -47,8 +47,7 @@ namespace AdBoardsDesktop.Views
             ad.Price = Convert.ToInt32(tbPrice.Text);
             ad.City = tbCity.Text;
 
-            await Context.Api.AdUpdate(ad);
-            Ad a = new Ad();
+            Ad a = await Context.Api.AdUpdate(ad);
             if (ad.Photo != null)
                 a = await Context.Api.UpdateAdPhoto(ad);
 

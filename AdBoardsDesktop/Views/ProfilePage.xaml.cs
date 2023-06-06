@@ -62,8 +62,7 @@ namespace AdBoardsDesktop.Views
             p.Email = tbEmail.Text;
             p.Phone = tbPhoneNumber.Text;
 
-            await Context.Api.PersonUpdate(p);
-            Person person = new Person();
+            Person person = await Context.Api.PersonUpdate(p);
             if (p.Photo != null)
                 person = await Context.Api.UpdatePersonPhoto(p);
 
