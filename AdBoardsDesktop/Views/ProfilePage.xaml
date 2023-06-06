@@ -35,8 +35,9 @@
                 VerticalAlignment="Top">
             <StackPanel HorizontalAlignment="Center">
                 <Image Source="\Resources\drawable\icon_image_person.png" 
-                           x:Name="imgPerson"
-                           Width="330"/>
+                       x:Name="imgPerson"
+                       Width="330"
+                       Height="330"/>
                 <Separator Opacity="0" Height="20"/>
                 <Button x:Name="btnSetPhoto"
                         Click="btnSetPhoto_Click"

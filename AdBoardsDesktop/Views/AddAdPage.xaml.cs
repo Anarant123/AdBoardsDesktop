@@ -39,9 +39,8 @@ namespace AdBoardsDesktop.Views
             else
                 ad.AdTypeId = 2;
 
-            Context.AdNow = await Context.Api.AddAd(ad);
-            ad.Id = Context.AdNow.Id;
-            //Context.AdNow = await Context.Api.UpdateAdPhoto(ad);
+            ad.Id = (await Context.Api.AddAd(ad)).Id;
+            await Context.Api.UpdateAdPhoto(ad);
 
             if (Context.AdNow == null)
             {
@@ -68,8 +67,11 @@ namespace AdBoardsDesktop.Views
                 try
                 {
                     imgAd.Source = LoadImage.Load(File.ReadAllBytes(o.FileName));
-                    IFormFile file = new FormFile(new FileStream(o.FileName, FileMode.Open), 0, 0, "name", Path.GetFileName(o.FileName));
-                    ad.Photo = file;
+
+                    var stream = new FileStream(o.FileName, FileMode.Open);
+                    var formFile = new FormFile(stream, 0, stream.Length, "streamFile", Path.GetFileName(o.FileName));
+
+                    ad.Photo = formFile;
                 }
                 catch (Exception ex)
                 {

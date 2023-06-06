@@ -88,7 +88,6 @@ namespace AdBoardsDesktop.Views
         private async void getAds()
         {
             Context.AdList = new AdListViewModel();
-
             Context.AdList.Ads = await Context.Api.GetAds();
             lvAds.ItemsSource = Context.AdList.Ads.ToList();
         }

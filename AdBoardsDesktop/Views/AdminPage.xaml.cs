@@ -22,24 +22,24 @@ namespace AdBoardsDesktop.Views
 
         private async void getPeople()
         {
-            var httpClient = new HttpClient();
-            using HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5228/People/GetPeople");
-            var jsonResponse = await response.Content.ReadAsStringAsync();
-            var responseContent = await response.Content.ReadAsStringAsync();
+            //var httpClient = new HttpClient();
+            //using HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5228/People/GetPeople");
+            //var jsonResponse = await response.Content.ReadAsStringAsync();
+            //var responseContent = await response.Content.ReadAsStringAsync();
 
-            if (response.IsSuccessStatusCode)
-            {
-                Context.AdList = new AdListViewModel();
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    Context.AdList = new AdListViewModel();
 
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    ReferenceHandler = ReferenceHandler.Preserve
-                };
+            //    var options = new JsonSerializerOptions
+            //    {
+            //        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            //        ReferenceHandler = ReferenceHandler.Preserve
+            //    };
 
-                var people = JsonSerializer.Deserialize<List<Person>>(responseContent, options);
-                dgPeople.ItemsSource = people.ToList();
-            }
+            //    var people = JsonSerializer.Deserialize<List<Person>>(responseContent, options);
+            //    dgPeople.ItemsSource = people.ToList();
+            //}
         }
 
         private async void btnDropClient_Click(object sender, RoutedEventArgs e)

@@ -1,5 +1,9 @@
-﻿using AdBoardsDesktop.Models.db;
+﻿using AdBoards.ApiClient.Contracts.Requests;
+using AdBoards.ApiClient.Contracts.Responses;
+using AdBoards.ApiClient.Extensions;
+using AdBoardsDesktop.Models.db;
 using AdBoardsDesktop.Models.DTO;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Win32;
 using System;
 using System.IO;
@@ -8,6 +12,8 @@ using System.Text;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace AdBoardsDesktop.Views
 {
@@ -16,17 +22,19 @@ namespace AdBoardsDesktop.Views
     /// </summary>
     public partial class ProfilePage : Page
     {
-        PersonDTO p = new PersonDTO();
+        EditPersonModel p = new EditPersonModel();
         public ProfilePage()
         {
             InitializeComponent();
 
-            //tbNickName.Text = Context.UserNow.Name;
-            //tbBirthday.Text = Context.UserNow.Birthday.ToString().Substring(0, 10);
-            //tbCityName.Text = Context.UserNow.City;
-            //tbEmail.Text = Context.UserNow.Email;
-            //tbPhoneNumber.Text = Context.UserNow.Phone;
-            //imgPerson.Source = LoadImage.Load(Context.UserNow.Photo);
+            var person = Context.UserNow.Person;
+
+            tbNickName.Text = person.Name;
+            tbBirthday.Text = person.Birthday.ToString().Substring(0, 10);
+            tbCityName.Text = person.City;
+            tbEmail.Text = person.Email;
+            tbPhoneNumber.Text = person.Phone;
+            imgPerson.Source = new BitmapImage(new Uri(person.PhotoName));
         }
 
         private void btnSetPhoto_Click(object sender, RoutedEventArgs e)
@@ -37,8 +45,12 @@ namespace AdBoardsDesktop.Views
             {
                 try
                 {
-                    p.Photo = File.ReadAllBytes(o.FileName);
                     imgPerson.Source = LoadImage.Load(File.ReadAllBytes(o.FileName));
+
+                    var stream = new FileStream(o.FileName, FileMode.Open);
+                    var formFile = new FormFile(stream, 0, stream.Length, "streamFile", Path.GetFileName(o.FileName));
+
+                    p.Photo = formFile;
                 }
                 catch (Exception ex)
                 {
@@ -49,38 +61,35 @@ namespace AdBoardsDesktop.Views
 
         private async void btnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            //p.Login = Context.UserNow.Login;
-            //p.Name = tbNickName.Text;
-            //p.Birthday = Convert.ToDateTime(tbBirthday.Text);
-            //p.City = tbCityName.Text;
-            //p.Email = tbEmail.Text;
-            //p.Phone = tbPhoneNumber.Text;
+            p.Name = tbNickName.Text;
+            p.Birthday = Convert.ToDateTime(tbBirthday.Text);
+            p.City = tbCityName.Text;
+            p.Email = tbEmail.Text;
+            p.Phone = tbPhoneNumber.Text;
 
-            //var httpClient = new HttpClient();
-            //using StringContent jsonContent = new(JsonSerializer.Serialize(p), Encoding.UTF8, "application/json");
-            //using HttpResponseMessage response = await httpClient.PutAsync("http://localhost:5228/People/Update", jsonContent);
-            //var jsonResponse = await response.Content.ReadAsStringAsync();
+            await Context.Api.PersonUpdate(p);
+            var person = await Context.Api.UpdatePersonPhoto(p);
 
-            //if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            //{
-            //    Person p = JsonSerializer.Deserialize<Person>(jsonResponse)!;
-            //    Context.UserNow = p;
-            //    MessageBox.Show("Вы успешно изменили данные профиля!");
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Что то пошло не так");
-            //}
+            if (person == null) 
+            {
+                MessageBox.Show("Что то пошло не так");
+                return;
+            }
+
+            Context.UserNow.Person = person;
+            MessageBox.Show("Вы успешно изменили данные профиля!");
         }
 
         private void btnResetInfo_Click(object sender, RoutedEventArgs e)
         {
-            //tbNickName.Text = Context.UserNow.Name;
-            //tbBirthday.Text = Context.UserNow.Birthday.ToString().Substring(0, 10);
-            //tbCityName.Text = Context.UserNow.City;
-            //tbEmail.Text = Context.UserNow.Email;
-            //tbPhoneNumber.Text = Context.UserNow.Phone;
-            //imgPerson.Source = LoadImage.Load(Context.UserNow.Photo);
+            var person = Context.UserNow.Person;
+
+            tbNickName.Text = person.Name;
+            tbBirthday.Text = person.Birthday.ToString().Substring(0, 10);
+            tbCityName.Text = person.City;
+            tbEmail.Text = person.Email;
+            tbPhoneNumber.Text = person.Phone;
+            imgPerson.Source = new BitmapImage(new Uri(person.PhotoName));
         }
 
         private void btnExit_Click(object sender, RoutedEventArgs e)

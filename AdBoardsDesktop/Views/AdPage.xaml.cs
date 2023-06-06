@@ -3,6 +3,7 @@ using System;
 using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace AdBoardsDesktop.Views
 {
@@ -16,14 +17,14 @@ namespace AdBoardsDesktop.Views
         {
             InitializeComponent();
 
-            //tbName.Text = Context.AdNow.Name;
-            //tbDescription.Text = Context.AdNow.Description;
-            //tbPhone.Text = Context.AdNow.Person.Phone;
-            //tbCity.Text = Context.AdNow.City;
-            //tbPrice.Text = Context.AdNow.Price.ToString();
-            //imgAd.Source = LoadImage.Load(Context.AdNow.Photo);
-            //imgSalesman.Source = LoadImage.Load(Context.AdNow.Person.Photo);
-            //lblSalesman.Text = Context.AdNow.Person.Name;
+            tbName.Text = Context.AdNow.Name;
+            tbDescription.Text = Context.AdNow.Description;
+            tbPhone.Text = Context.AdNow.Person.Phone;
+            tbCity.Text = Context.AdNow.City;
+            tbPrice.Text = Context.AdNow.Price.ToString();
+            imgAd.Source = new BitmapImage(new Uri(Context.AdNow.PhotoName));
+            imgSalesman.Source = new BitmapImage(new Uri(Context.AdNow.Person.PhotoName));
+            lblSalesman.Text = Context.AdNow.Person.Name;
         }
 
         public AdPage(bool isFavorites)
