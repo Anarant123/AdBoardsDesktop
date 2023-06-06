@@ -1,4 +1,5 @@
 ﻿using AdBoards.ApiClient.Contracts.Requests;
+using AdBoards.ApiClient.Contracts.Responses;
 using AdBoards.ApiClient.Extensions;
 using AdBoardsDesktop.Models.db;
 using Microsoft.AspNetCore.Http.Internal;
@@ -62,7 +63,9 @@ namespace AdBoardsDesktop.Views
             p.Phone = tbPhoneNumber.Text;
 
             await Context.Api.PersonUpdate(p);
-            var person = await Context.Api.UpdatePersonPhoto(p);
+            Person person = new Person();
+            if (p.Photo != null)
+                person = await Context.Api.UpdatePersonPhoto(p);
 
             if (person == null) 
             {

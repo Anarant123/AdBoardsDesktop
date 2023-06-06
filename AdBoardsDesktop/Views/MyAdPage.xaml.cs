@@ -1,4 +1,5 @@
 ﻿using AdBoards.ApiClient.Contracts.Requests;
+using AdBoards.ApiClient.Contracts.Responses;
 using AdBoards.ApiClient.Extensions;
 using AdBoardsDesktop.Models.db;
 using Microsoft.AspNetCore.Http.Internal;
@@ -47,7 +48,9 @@ namespace AdBoardsDesktop.Views
             ad.City = tbCity.Text;
 
             await Context.Api.AdUpdate(ad);
-            var a = await Context.Api.UpdateAdPhoto(ad);
+            Ad a = new Ad();
+            if (ad.Photo != null)
+                a = await Context.Api.UpdateAdPhoto(ad);
 
             if (a == null)
             {
