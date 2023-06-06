@@ -1,4 +1,5 @@
 ﻿using System;
+using AdBoards.ApiClient.Contracts.Responses;
 using System.Collections.Generic;
 
 namespace AdBoardsDesktop.Models.db;

@@ -15,14 +15,14 @@ namespace AdBoardsDesktop.Views
         {
             InitializeComponent();
 
-            tbName.Text = Context.AdNow.Name;
-            tbDescription.Text = Context.AdNow.Description;
-            tbPhone.Text = Context.AdNow.Person.Phone;
-            tbCity.Text = Context.AdNow.City;
-            tbPrice.Text = Context.AdNow.Price.ToString();
-            imgAd.Source = LoadImage.Load(Context.AdNow.Photo);
-            imgSalesman.Source = LoadImage.Load(Context.AdNow.Person.Photo);
-            lblSalesman.Text = Context.AdNow.Person.Name;
+            //tbName.Text = Context.AdNow.Name;
+            //tbDescription.Text = Context.AdNow.Description;
+            //tbPhone.Text = Context.AdNow.Person.Phone;
+            //tbCity.Text = Context.AdNow.City;
+            //tbPrice.Text = Context.AdNow.Price.ToString();
+            //imgAd.Source = LoadImage.Load(Context.AdNow.Photo);
+            //imgSalesman.Source = LoadImage.Load(Context.AdNow.Person.Photo);
+            //lblSalesman.Text = Context.AdNow.Person.Name;
         }
 
         private async void btnDrop_Click(object sender, RoutedEventArgs e)

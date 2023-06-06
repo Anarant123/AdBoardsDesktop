@@ -1,4 +1,6 @@
 ﻿using AdBoardsDesktop.Models.db;
+using AdBoards.ApiClient;
+using AdBoards.ApiClient.Extensions;
 using System;
 using System.Net.Http;
 using System.Text.Json;
@@ -24,31 +26,23 @@ namespace AdBoardsDesktop.Views
 
         private async void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
-            var httpClient = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Post, $"http://localhost:5228/People/Authorization?login={tbLogin.Text}&password={tbPassword.Password}");
-            var response = await httpClient.SendAsync(request);
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            if (response.IsSuccessStatusCode)
-            {
-                Person user = new Person();
-                user = JsonSerializer.Deserialize<Person>(responseContent)!;
-
-                Context.UserNow = user;
-
-                if (user.RightId == 1)
-                    this.NavigationService.Navigate(new Uri("Views/ProfilePage.xaml", UriKind.Relative));
-                else
-                {
-                    Window w = Window.GetWindow(this);
-                    w.Hide();
-                    AdminWindow adminWindow = new AdminWindow();
-                    adminWindow.Show();
-                }    
-            }
-            else
+            Context.UserNow = await Context.Api.Authorize(tbLogin.Text, tbPassword.Password);
+            if (Context.UserNow == null)
             {
                 MessageBox.Show("Что то пошло не так!");
+                return;
+            }
+
+            Context.Api.Jwt = Context.UserNow.Token;
+
+            if (Context.UserNow.Person.Right.Id == 2)
+                this.NavigationService.Navigate(new Uri("Views/ProfilePage.xaml", UriKind.Relative));
+            else
+            {
+                Window w = Window.GetWindow(this);
+                w.Hide();
+                AdminWindow adminWindow = new AdminWindow();
+                adminWindow.Show();
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using AdBoardsDesktop.Models.db;
+using AdBoards.ApiClient.Contracts.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +48,7 @@ namespace AdBoardsDesktop.Views
                 };
 
                 Context.AdList.Ads = JsonSerializer.Deserialize<List<Ad>>(responseContent, options);
-                Context.AdList.Ads = Context.AdList.Ads.Where(x => x.Complaints.Count > 0).ToList();
+                //Context.AdList.Ads = Context.AdList.Ads.Where(x => x.Complaints.Count > 0).ToList();
                 lvAds.ItemsSource = Context.AdList.Ads.ToList();
             }
         }

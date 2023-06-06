@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdBoardsDesktop", "AdBoardsDesktop\AdBoardsDesktop.csproj", "{22CAC374-A065-4449-815E-4D2B6BAB881A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdBoardsDesktop", "AdBoardsDesktop\AdBoardsDesktop.csproj", "{22CAC374-A065-4449-815E-4D2B6BAB881A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestAdBoards", "UnitTestAdBoards\UnitTestAdBoards.csproj", "{A537F9DB-4B0D-4EA4-A604-A0A25104C9C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTestAdBoards", "UnitTestAdBoards\UnitTestAdBoards.csproj", "{A537F9DB-4B0D-4EA4-A604-A0A25104C9C4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdBoards.ApiClient", "..\AdBoardsWebAPI\AdBoards.ApiClient\AdBoards.ApiClient.csproj", "{D8214A59-B8C7-4E0B-A88D-459F55BA2425}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A537F9DB-4B0D-4EA4-A604-A0A25104C9C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A537F9DB-4B0D-4EA4-A604-A0A25104C9C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A537F9DB-4B0D-4EA4-A604-A0A25104C9C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8214A59-B8C7-4E0B-A88D-459F55BA2425}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8214A59-B8C7-4E0B-A88D-459F55BA2425}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8214A59-B8C7-4E0B-A88D-459F55BA2425}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8214A59-B8C7-4E0B-A88D-459F55BA2425}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

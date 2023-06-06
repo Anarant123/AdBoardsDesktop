@@ -5,7 +5,7 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>C:\Учеба\РПМ\Проект\AdBoardsDesktop\AdBoardsDesktop\Resources\logo.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\logo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,6 +33,14 @@
     <None Remove="Resources\drawable\icon_phone.png" />
     <None Remove="Resources\drawable\icon_plus.png" />
     <None Remove="Resources\drawable\icon_price.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\AdBoardsWebAPI\AdBoards.ApiClient\AdBoards.ApiClient.csproj" />
   </ItemGroup>
 
   <ItemGroup>

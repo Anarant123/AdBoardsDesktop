@@ -1,5 +1,9 @@
-﻿using AdBoardsDesktop.Models.db;
+﻿using AdBoards.ApiClient.Contracts.Requests;
+using AdBoards.ApiClient.Extensions;
+using AdBoardsDesktop.Models.db;
 using AdBoardsDesktop.Models.DTO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Win32;
 using System;
 using System.IO;
@@ -8,6 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace AdBoardsDesktop.Views
 {
@@ -16,7 +21,7 @@ namespace AdBoardsDesktop.Views
     /// </summary>
     public partial class AddAdPage : Page
     {
-        AdDTO ad = new AdDTO();
+        AddAdModel ad = new AddAdModel();
         public AddAdPage()
         {
             InitializeComponent();
@@ -26,33 +31,27 @@ namespace AdBoardsDesktop.Views
         {
             ad.Name = tbAddingName.Text;
             ad.City = tbAddingCity.Text;
-            ad.Date = DateTime.Now;
-            ad.CotegorysId = cbAddingСategories.SelectedIndex + 1;
+            ad.CategoryId = cbAddingСategories.SelectedIndex + 1;
             ad.Description = tbAddingDescription.Text;
             ad.Price = Convert.ToInt32(tbAddingPrice.Text);
-            if (rbBuy.IsChecked == true )
-                ad.TypeOfAdId = 1;
+            if (rbBuy.IsChecked == true)
+                ad.AdTypeId = 1;
             else
-                ad.TypeOfAdId = 2;
-            ad.PersonId = Context.UserNow.Id;
-            if (ad.Photo == null)
-                ad.Photo = File.ReadAllBytes("Resources\\drawable\\icon_image.png");
+                ad.AdTypeId = 2;
 
-            var httpClient = new HttpClient();
-            using StringContent jsonContent = new(JsonSerializer.Serialize(ad), Encoding.UTF8, "application/json");
-            using HttpResponseMessage response = await httpClient.PostAsync("http://localhost:5228/Ads/Addition", jsonContent);
-            var jsonResponse = await response.Content.ReadAsStringAsync();
+            Context.AdNow = await Context.Api.AddAd(ad);
+            ad.Id = Context.AdNow.Id;
+            //Context.AdNow = await Context.Api.UpdateAdPhoto(ad);
 
-            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            if (Context.AdNow == null)
             {
-                Ad a = JsonSerializer.Deserialize<Ad>(jsonResponse)!;
-                Context.AdNow = a;
-
-                MessageBox.Show("объявление успешно добавленно");
-                this.NavigationService.Navigate(new Uri("Views/MyAdsPage.xaml", UriKind.Relative));
-            }
-            else
                 MessageBox.Show("Что то пошло не так! \nОбъявление добавить не удалось...");
+                return;
+            }
+
+            MessageBox.Show("Объявление успешно добавленно");
+            this.NavigationService.Navigate(new Uri("Views/MyAdsPage.xaml", UriKind.Relative));
+
         }
 
         private void btnToBackFrame_Click(object sender, RoutedEventArgs e)
@@ -68,8 +67,9 @@ namespace AdBoardsDesktop.Views
             {
                 try
                 {
-                    ad.Photo = File.ReadAllBytes(o.FileName);
-                    imgAd.Source = LoadImage.Load(ad.Photo);
+                    imgAd.Source = LoadImage.Load(File.ReadAllBytes(o.FileName));
+                    IFormFile file = new FormFile(new FileStream(o.FileName, FileMode.Open), 0, 0, "name", Path.GetFileName(o.FileName));
+                    ad.Photo = file;
                 }
                 catch (Exception ex)
                 {

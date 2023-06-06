@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AdBoards.ApiClient.Contracts.Responses;
 using System.Text.Json.Serialization;
 
 namespace AdBoardsDesktop.Models.db;
