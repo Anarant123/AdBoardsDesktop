@@ -1,4 +1,5 @@
-﻿using AdBoardsDesktop.Models.db;
+﻿using AdBoards.ApiClient.Extensions;
+using AdBoardsDesktop.Models.db;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -22,41 +23,20 @@ namespace AdBoardsDesktop.Views
 
         private async void getPeople()
         {
-            //var httpClient = new HttpClient();
-            //using HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5228/People/GetPeople");
-            //var jsonResponse = await response.Content.ReadAsStringAsync();
-            //var responseContent = await response.Content.ReadAsStringAsync();
-
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    Context.AdList = new AdListViewModel();
-
-            //    var options = new JsonSerializerOptions
-            //    {
-            //        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            //        ReferenceHandler = ReferenceHandler.Preserve
-            //    };
-
-            //    var people = JsonSerializer.Deserialize<List<Person>>(responseContent, options);
-            //    dgPeople.ItemsSource = people.ToList();
-            //}
+            dgPeople.ItemsSource = await Context.Api.GetPeople();
         }
 
         private async void btnDropClient_Click(object sender, RoutedEventArgs e)
         {
-            var httpClient = new HttpClient();
-            using HttpResponseMessage response = await httpClient.DeleteAsync($"http://localhost:5228/People/Delete?Login={tbLogin.Text}");
-            var responseContent = await response.Content.ReadAsStringAsync();
+            var result = await Context.Api.DeletePeople(tbLogin.Text);
 
-            if (response.IsSuccessStatusCode)
+            if (result)
             {
                 MessageBox.Show("Пользователь успешно удален");
                 getPeople();
+                return;
             }
-            else
-            {
-                MessageBox.Show("Что то пошло не так...");
-            }
+            MessageBox.Show("Что то пошло не так...");
         }
     }
 }

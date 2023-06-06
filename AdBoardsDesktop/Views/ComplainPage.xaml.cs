@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows.Controls;
+using AdBoards.ApiClient.Extensions;
 
 namespace AdBoardsDesktop.Views
 {
@@ -32,25 +33,9 @@ namespace AdBoardsDesktop.Views
 
         private async void getAds()
         {
-            var httpClient = new HttpClient();
-            using HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5228/Ads/GetAds");
-            var jsonResponse = await response.Content.ReadAsStringAsync();
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            if (response.IsSuccessStatusCode)
-            {
-                Context.AdList = new AdListViewModel();
-
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    ReferenceHandler = ReferenceHandler.Preserve
-                };
-
-                Context.AdList.Ads = JsonSerializer.Deserialize<List<Ad>>(responseContent, options);
-                //Context.AdList.Ads = Context.AdList.Ads.Where(x => x.Complaints.Count > 0).ToList();
-                lvAds.ItemsSource = Context.AdList.Ads.ToList();
-            }
+            Context.AdList = new AdListViewModel();
+            Context.AdList.Ads = await Context.Api.GetAds();
+            lvAds.ItemsSource = Context.AdList.Ads.ToList().Where(x => x.Complaints.Count() > 0);
         }
     }
 }

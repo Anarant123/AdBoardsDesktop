@@ -1,8 +1,11 @@
 ﻿using AdBoardsDesktop.Models.db;
 using System;
 using System.Net.Http;
+using AdBoards.ApiClient.Contracts.Requests;
+using AdBoards.ApiClient.Extensions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace AdBoardsDesktop.Views
 {
@@ -15,47 +18,39 @@ namespace AdBoardsDesktop.Views
         {
             InitializeComponent();
 
-            //tbName.Text = Context.AdNow.Name;
-            //tbDescription.Text = Context.AdNow.Description;
-            //tbPhone.Text = Context.AdNow.Person.Phone;
-            //tbCity.Text = Context.AdNow.City;
-            //tbPrice.Text = Context.AdNow.Price.ToString();
-            //imgAd.Source = LoadImage.Load(Context.AdNow.Photo);
-            //imgSalesman.Source = LoadImage.Load(Context.AdNow.Person.Photo);
-            //lblSalesman.Text = Context.AdNow.Person.Name;
+            tbName.Text = Context.AdNow.Name;
+            tbDescription.Text = Context.AdNow.Description;
+            tbPhone.Text = Context.AdNow.Person.Phone;
+            tbCity.Text = Context.AdNow.City;
+            tbPrice.Text = Context.AdNow.Price.ToString();
+            imgAd.Source = new BitmapImage( new Uri(Context.AdNow.PhotoName));
+            imgSalesman.Source = new BitmapImage(new Uri(Context.AdNow.Person.PhotoName));
+            lblSalesman.Text = Context.AdNow.Person.Name;
         }
 
         private async void btnDrop_Click(object sender, RoutedEventArgs e)
         {
-            var httpClient = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Delete, $"http://localhost:5228/Ads/Delete?id={Context.AdNow.Id}");
-            var response = await httpClient.SendAsync(request);
+            var result = await Context.Api.DeleteAd(Context.AdNow.Id);
 
-            if (response.IsSuccessStatusCode)
+            if (result)
             {
                 this.NavigationService.Navigate(new Uri("Views/ComplainPage.xaml", UriKind.Relative));
+                return;
             }
-            else
-            {
-                MessageBox.Show("Что то пошло не так...");
-            }
+            MessageBox.Show("Что то пошло не так...");
         }
 
         private async void btnWithdrawTheComplaint_Click(object sender, RoutedEventArgs e)
         {
-            var httpClient = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Delete, $"http://localhost:5228/Complaint/Delete?AdId={Context.AdNow.Id}");
-            var response = await httpClient.SendAsync(request);
+            var result = await Context.Api.DeleteFromComplaints(Context.AdNow.Id);
 
-            if (response.IsSuccessStatusCode)
+            if (result)
             {
-                MessageBox.Show("Жалоба снята");
+                MessageBox.Show("Жалоба снята успешно!");
                 this.NavigationService.Navigate(new Uri("Views/ComplainPage.xaml", UriKind.Relative));
+                return;
             }
-            else
-            {
-                MessageBox.Show("Что то пошло не так...");
-            }
+            MessageBox.Show("Что то пошло не так...");
         }
     }
 }

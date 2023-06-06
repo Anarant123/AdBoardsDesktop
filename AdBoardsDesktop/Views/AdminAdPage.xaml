@@ -30,11 +30,13 @@
     <DockPanel LastChildFill="True"
                HorizontalAlignment="Center">
         <Border DockPanel.Dock="Left"
-                Height="420"
+                Height="500"
                 VerticalAlignment="Top">
             <StackPanel HorizontalAlignment="Center">
                 <Image x:Name="imgAd"
-                           Source="\Resources\drawable\icon_image.png" Width="330"/>
+                       Source="\Resources\drawable\icon_image.png" 
+                       Width="330"
+                       Height="330"/>
                 <Separator Opacity="0" Height="20"/>
                 <StackPanel Orientation="Horizontal">
                     <Image x:Name="imgSalesman"
