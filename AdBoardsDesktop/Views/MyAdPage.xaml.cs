@@ -1,12 +1,10 @@
-﻿using AdBoardsDesktop.Models.db;
-using AdBoardsDesktop.Models.DTO;
+﻿using AdBoards.ApiClient.Contracts.Requests;
+using AdBoards.ApiClient.Extensions;
+using AdBoardsDesktop.Models.db;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -18,7 +16,7 @@ namespace AdBoardsDesktop.Views
     /// </summary>
     public partial class MyAdPage : Page
     {
-        AdDTO ad = new AdDTO();
+        AddAdModel ad = new AddAdModel();
         public MyAdPage()
         {
             InitializeComponent();
@@ -37,60 +35,40 @@ namespace AdBoardsDesktop.Views
 
         private async void btnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
-            //ad.Id = Context.AdNow.Id;
-            //ad.Name = tbName.Text;
-            //ad.Description = tbDescription.Text;
-            //ad.CotegorysId = cbСategories.SelectedIndex + 1;
-            //if (rbBuy.IsChecked == true)
-            //    ad.TypeOfAdId = 1;
-            //else if(rbSell.IsChecked == true)
-            //    ad.TypeOfAdId = 2;
-            //ad.Price = Convert.ToInt32(tbPrice.Text);
-            //ad.City = tbCity.Text;
-            //if (ad.Photo == null)
-            //    ad.Photo = Context.AdNow.Photo;
+            ad.Id = Context.AdNow.Id;
+            ad.Name = tbName.Text;
+            ad.Description = tbDescription.Text;
+            ad.CategoryId = cbСategories.SelectedIndex + 1;
+            if (rbBuy.IsChecked == true)
+                ad.AdTypeId = 1;
+            else if (rbSell.IsChecked == true)
+                ad.AdTypeId = 2;
+            ad.Price = Convert.ToInt32(tbPrice.Text);
+            ad.City = tbCity.Text;
 
-            //var httpClient = new HttpClient();
-            //using StringContent jsonContent = new(JsonSerializer.Serialize(ad), Encoding.UTF8, "application/json");
-            //using HttpResponseMessage response = await httpClient.PutAsync("http://localhost:5228/Ads/Update", jsonContent);
-            //using HttpResponseMessage r = await httpClient.GetAsync($"http://localhost:5228/Ads/GetMyAds?id={Context.UserNow.Id}");
-            //var jsonResponse = await response.Content.ReadAsStringAsync();
-            //var jsonResponser = await r.Content.ReadAsStringAsync();
+            await Context.Api.AdUpdate(ad);
+            var a = await Context.Api.UpdateAdPhoto(ad);
 
-            //if (response.StatusCode == System.Net.HttpStatusCode.OK)
-            //{
-            //    Ad a = JsonSerializer.Deserialize<Ad>(jsonResponse)!;
-            //    a.Person = Context.UserNow;
-            //    Context.AdNow = a;
-            //    Context.AdList.Ads = JsonSerializer.Deserialize<List<Ad>>(jsonResponser);
+            if (a == null)
+            {
+                MessageBox.Show("Что то пошло не так\n");
+                return;
+            }
 
-            //    MessageBox.Show("Изменения успешно установленны!");
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Что то пошло не так!");
-            //}
+            Context.AdNow = a;
+            MessageBox.Show("Вы успешно изменили объявление!");
         }
 
         private async void btnDrop_Click(object sender, RoutedEventArgs e)
         {
-            //var httpClient = new HttpClient();
-            //using HttpResponseMessage responseD = await httpClient.DeleteAsync($"http://localhost:5228/Ads/Delete?id={Context.AdNow.Id}");
-            //using HttpResponseMessage response = await httpClient.GetAsync($"http://localhost:5228/Ads/GetMyAds?id={Context.UserNow.Id}");
-            //var responseContent = await response.Content.ReadAsStringAsync();
+            var result = await Context.Api.DeleteAd(Context.AdNow.Id);
 
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    Context.AdList = new AdListViewModel();
-
-            //    Context.AdList.Ads = JsonSerializer.Deserialize<List<Ad>>(responseContent);
-
-            //    this.NavigationService.Navigate(new Uri("Views/MyAdsPage.xaml", UriKind.Relative));
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Что то пошло не так...");
-            //}
+            if (result)
+            {
+                this.NavigationService.Navigate(new Uri("Views/MyAdsPage.xaml", UriKind.Relative));
+                return;
+            }
+            MessageBox.Show("Что то пошло не так...");
         }
 
         private void btnAddPhoto_Click(object sender, RoutedEventArgs e)
@@ -101,8 +79,12 @@ namespace AdBoardsDesktop.Views
             {
                 try
                 {
-                    ad.Photo = File.ReadAllBytes(o.FileName);
-                    imgAd.Source = LoadImage.Load(ad.Photo);
+                    imgAd.Source = LoadImage.Load(File.ReadAllBytes(o.FileName));
+
+                    var stream = new FileStream(o.FileName, FileMode.Open);
+                    var formFile = new FormFile(stream, 0, stream.Length, "streamFile", Path.GetFileName(o.FileName));
+
+                    ad.Photo = formFile;
                 }
                 catch (Exception ex)
                 {

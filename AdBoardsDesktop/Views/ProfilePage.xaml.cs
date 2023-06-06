@@ -1,19 +1,13 @@
 ﻿using AdBoards.ApiClient.Contracts.Requests;
-using AdBoards.ApiClient.Contracts.Responses;
 using AdBoards.ApiClient.Extensions;
 using AdBoardsDesktop.Models.db;
-using AdBoardsDesktop.Models.DTO;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Win32;
 using System;
 using System.IO;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace AdBoardsDesktop.Views
 {

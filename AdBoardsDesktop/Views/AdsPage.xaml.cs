@@ -27,46 +27,10 @@ namespace AdBoardsDesktop.Views
 
         private async void btnUseFilter_Click(object sender, RoutedEventArgs e)
         {
-            //bool result;
-            //string responseContent;
+            lvAds.ItemsSource = await Context.Api.UseFulter(1, tbPriceFrom.Text, tbPriceUpTo.Text, tbCity.Text, Convert.ToInt32(cbСategories.SelectedIndex), (bool)rbBuy.IsChecked!, (bool)rbSell.IsChecked!);
 
-            //var httpClient = new HttpClient();
-            //using HttpResponseMessage response = await httpClient.GetAsync("http://localhost:5228/Ads/GetAds");
-            //var jsonResponse = await response.Content.ReadAsStringAsync();
-            //responseContent = await response.Content.ReadAsStringAsync();
-            //result = response.IsSuccessStatusCode;
-
-            //if (result)
-            //{
-            //    Context.AdList = new AdListViewModel();
-
-            //    var options = new JsonSerializerOptions
-            //    {
-            //        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            //        ReferenceHandler = ReferenceHandler.Preserve
-            //    };
-
-            //    Context.AdList.Ads = JsonSerializer.Deserialize<List<Ad>>(responseContent, options);
-
-            //    if (!string.IsNullOrEmpty(tbPriceFrom.Text))
-            //        Context.AdList.Ads = Context.AdList.Ads.Where(x => x.Price >= Convert.ToInt32(tbPriceFrom.Text)).ToList();
-            //    if (!string.IsNullOrEmpty(tbPriceUpTo.Text))
-            //        Context.AdList.Ads = Context.AdList.Ads.Where(x => x.Price <= Convert.ToInt32(tbPriceUpTo.Text)).ToList();
-            //    if (!string.IsNullOrEmpty(tbCity.Text))
-            //        Context.AdList.Ads = Context.AdList.Ads.Where(x => x.City == tbCity.Text).ToList();
-            //    if (cbСategories.SelectedIndex != 0)
-            //        Context.AdList.Ads = Context.AdList.Ads.Where(x => x.CotegorysId == cbСategories.SelectedIndex).ToList();
-            //    if (Convert.ToBoolean(rbBuy.IsChecked))
-            //        Context.AdList.Ads = Context.AdList.Ads.Where(x => x.TypeOfAdId == 1).ToList();
-            //    else if (Convert.ToBoolean(rbSell.IsChecked))
-            //        Context.AdList.Ads = Context.AdList.Ads.Where(x => x.TypeOfAdId == 2).ToList();
-
-            //    lvAds.ItemsSource = Context.AdList.Ads;
-            //}
-            //else
-            //{
-            //    MessageBox.Show("С данными фильтрами ничего не найдено");
-            //}
+            if (lvAds.Items.Count == 0)
+                MessageBox.Show("С данными фильтрами ничего не найдено");
         }
 
         private async void lvAds_SelectionChanged(object sender, SelectionChangedEventArgs e)
