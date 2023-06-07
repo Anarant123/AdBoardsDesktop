@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\AdBoardsWebAPI\AdBoards.ApiClient\AdBoards.ApiClient.csproj" />
     <ProjectReference Include="..\AdBoardsDesktop\AdBoardsDesktop.csproj" />
   </ItemGroup>
 

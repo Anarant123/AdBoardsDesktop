@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# NUnit1012: The async test method must have a non-void return type
+dotnet_diagnostic.NUnit1012.severity = none
