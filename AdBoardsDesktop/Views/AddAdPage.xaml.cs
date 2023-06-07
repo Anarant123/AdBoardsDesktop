@@ -23,27 +23,34 @@ namespace AdBoardsDesktop.Views
 
         private async void btnAddPost_Click(object sender, RoutedEventArgs e)
         {
-            ad.Name = tbAddingName.Text;
-            ad.City = tbAddingCity.Text;
-            ad.CategoryId = cbAddingСategories.SelectedIndex + 1;
-            ad.Description = tbAddingDescription.Text;
-            ad.Price = Convert.ToInt32(tbAddingPrice.Text);
-            if (rbBuy.IsChecked == true)
-                ad.AdTypeId = 1;
-            else
-                ad.AdTypeId = 2;
-
-            ad.Id = (await Context.Api.AddAd(ad)).Id;
-            await Context.Api.UpdateAdPhoto(ad);
-
-            if (Context.AdNow == null)
+            try
             {
-                MessageBox.Show("Что то пошло не так! \nОбъявление добавить не удалось...");
-                return;
-            }
+                ad.Name = tbAddingName.Text;
+                ad.City = tbAddingCity.Text;
+                ad.CategoryId = cbAddingСategories.SelectedIndex + 1;
+                ad.Description = tbAddingDescription.Text;
+                ad.Price = Convert.ToInt32(tbAddingPrice.Text);
+                if (rbBuy.IsChecked == true)
+                    ad.AdTypeId = 1;
+                else
+                    ad.AdTypeId = 2;
 
-            MessageBox.Show("Объявление успешно добавленно");
-            this.NavigationService.Navigate(new Uri("Views/MyAdsPage.xaml", UriKind.Relative));
+                ad.Id = (await Context.Api.AddAd(ad)).Id;
+                await Context.Api.UpdateAdPhoto(ad);
+
+                if (Context.AdNow == null)
+                {
+                    MessageBox.Show("Что то пошло не так! \nОбъявление добавить не удалось...");
+                    return;
+                }
+
+                MessageBox.Show("Объявление успешно добавленно");
+                this.NavigationService.Navigate(new Uri("Views/MyAdsPage.xaml", UriKind.Relative));
+            }
+            catch
+            {
+                MessageBox.Show("Заполни поля! \nОбъявление добавить не удалось...");
+            }
 
         }
 

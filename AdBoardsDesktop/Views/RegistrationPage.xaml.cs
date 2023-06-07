@@ -19,6 +19,13 @@ namespace AdBoardsDesktop.Views
 
         private async void btnRegister_Click(object sender, RoutedEventArgs e)
         {
+            if (tbLogin.Text == "" || tbPhone.Text == "" || tbEmail.Text == "" || tbPassword1.Password == "")
+            {
+                MessageBox.Show("Заполните все поля!");
+                return;
+            }
+
+
             PersonReg person = new PersonReg();
             person.Login = tbLogin.Text;
             person.Phone = tbPhone.Text;
