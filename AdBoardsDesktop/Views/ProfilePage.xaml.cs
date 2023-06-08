@@ -5,7 +5,9 @@ using AdBoardsDesktop.Models.db;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Win32;
 using System;
+using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -56,6 +58,70 @@ namespace AdBoardsDesktop.Views
 
         private async void btnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
+            bool ValidateFields()
+            {
+                // Проверка поля tbBirthday
+                DateTime birthday;
+                if (!DateTime.TryParseExact(tbBirthday.Text, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthday))
+                {
+                    MessageBox.Show("Введите корректную дату рождения в формате дд.мм.гггг.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                // Проверка поля tbEmail
+                if (string.IsNullOrWhiteSpace(tbEmail.Text) || !IsValidEmail(tbEmail.Text))
+                {
+                    MessageBox.Show("Введите корректный email.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                // Проверка поля tbPhone
+                if (string.IsNullOrWhiteSpace(tbPhoneNumber.Text) || !IsValidPhone(tbPhoneNumber.Text))
+                {
+                    MessageBox.Show("Введите корректный номер телефона.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                if (string.IsNullOrWhiteSpace(tbNickName.Text))
+                {
+                    MessageBox.Show("Имя не корректно.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                if (string.IsNullOrWhiteSpace(tbCityName.Text))
+                {
+                    MessageBox.Show("Имя не корректно.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                return true;
+            }
+
+            // Вспомогательные методы для проверки email и номера телефона
+
+            bool IsValidEmail(string email)
+            {
+                string pattern = @"^(\+)[1-9][0-9\-().]{9,15}$";
+                Match match = Regex.Match(email, pattern);
+                return match.Success;
+            }
+
+            bool IsValidPhone(string phone)
+            {
+                // Регулярное выражение для проверки корректности номера телефона
+                // В данном примере, мы считаем корректными номера телефонов, состоящие из 10 цифр
+                string pattern = @"^\d{11}$";
+
+                // Проверка совпадения номера телефона с регулярным выражением
+                Match match = Regex.Match(phone, pattern);
+
+                return match.Success;
+            }
+
+            if (!ValidateFields())
+                return;
+
+
             p.Name = tbNickName.Text;
             p.Birthday = Convert.ToDateTime(tbBirthday.Text);
             p.City = tbCityName.Text;

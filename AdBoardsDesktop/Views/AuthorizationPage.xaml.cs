@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace AdBoardsDesktop.Views
 {
@@ -26,10 +28,32 @@ namespace AdBoardsDesktop.Views
 
         private async void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
+            bool ValidateFields()
+            {
+                // Проверка поля tbLogin
+                if (string.IsNullOrWhiteSpace(tbLogin.Text))
+                {
+                    MessageBox.Show("Введите логин!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                // Проверка полей tbPassword1 и tbPassword2
+                if (string.IsNullOrWhiteSpace(tbPassword.Password))
+                {
+                    MessageBox.Show("Введите пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                return true;
+            }
+
+            if (!ValidateFields())
+                return;
+
             Context.UserNow = await Context.Api.Authorize(tbLogin.Text, tbPassword.Password);
             if (Context.UserNow == null)
             {
-                MessageBox.Show("Что то пошло не так!");
+                MessageBox.Show("Неудачная авторизация!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

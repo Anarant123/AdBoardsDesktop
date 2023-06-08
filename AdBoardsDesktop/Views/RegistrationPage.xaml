@@ -20,7 +20,7 @@
                 <TextBlock Text="Логин:" FontSize="16"/>
                 <TextBox x:Name="tbLogin" 
                      Height="35"
-                     MaxLength="30"/>
+                     MaxLength="32"/>
             </StackPanel>
             <Separator Opacity="0" Height="20"/>
             <StackPanel Width="350">
@@ -35,7 +35,7 @@
                 <TextBlock Text="Телефон:" FontSize="16"/>
                 <TextBox x:Name="tbPhone"
                          Height="35"
-                         MaxLength="12"/>
+                         MaxLength="16"/>
             </StackPanel>
             <Separator Opacity="0" Height="20"/>
             <StackPanel Width="350">
@@ -49,14 +49,14 @@
                 <TextBlock Text="Пароль:" FontSize="16"/>
                 <PasswordBox x:Name="tbPassword1"
                          Height="35"
-                         MaxLength="20"/>
+                         MaxLength="32"/>
             </StackPanel>
             <Separator Opacity="0" Height="20"/>
             <StackPanel Width="350">
                 <TextBlock Text="Повтор пароля:" FontSize="16"/>
                 <PasswordBox x:Name="tbPassword2" 
                          Height="35"
-                         MaxLength="20"/>
+                         MaxLength="32"/>
             </StackPanel>
             <Separator Opacity="0" Height="20"/>
             <Button x:Name="btnRegister"

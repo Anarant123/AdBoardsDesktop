@@ -52,7 +52,7 @@
             <StackPanel Width="633">
                 <TextBlock Text="Никнейм:" FontSize="16"/>
                 <TextBox x:Name="tbNickName"
-                             MaxLength="30"
+                             MaxLength="32"
                              Width="633"
                              HorizontalAlignment="Center"/>
             </StackPanel>
@@ -60,7 +60,7 @@
             <StackPanel Width="633">
                 <TextBlock Text="Номер телефона:" FontSize="16"/>
                 <TextBox x:Name="tbPhoneNumber"
-                             MaxLength="12"
+                             MaxLength="16"
                              Text=""
                              Width="633"
                              HorizontalAlignment="Center"/>
@@ -78,7 +78,7 @@
             <StackPanel Width="633">
                 <TextBlock Text="Дата рождения:" FontSize="16"/>
                 <TextBox x:Name="tbBirthday"
-                         Text=""
+                         Tag="дд.мм.гггг"
                          MaxLength="10"
                          Width="633"
                          HorizontalAlignment="Center"/>
