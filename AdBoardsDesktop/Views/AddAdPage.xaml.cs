@@ -4,7 +4,9 @@ using AdBoardsDesktop.Models.db;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Win32;
 using System;
+using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -19,38 +21,61 @@ namespace AdBoardsDesktop.Views
         public AddAdPage()
         {
             InitializeComponent();
+
+            tbAddingCity.Text = Context.UserNow.Person.City;
         }
 
         private async void btnAddPost_Click(object sender, RoutedEventArgs e)
         {
-            try
+            int price;
+            bool ValidateFields()
             {
-                ad.Name = tbAddingName.Text;
-                ad.City = tbAddingCity.Text;
-                ad.CategoryId = cbAddingСategories.SelectedIndex + 1;
-                ad.Description = tbAddingDescription.Text;
-                ad.Price = Convert.ToInt32(tbAddingPrice.Text);
-                if (rbBuy.IsChecked == true)
-                    ad.AdTypeId = 1;
-                else
-                    ad.AdTypeId = 2;
-
-                ad.Id = (await Context.Api.AddAd(ad)).Id;
-                await Context.Api.UpdateAdPhoto(ad);
-
-                if (Context.AdNow == null)
+                if (!int.TryParse(tbAddingPrice.Text, out price))
                 {
-                    MessageBox.Show("Что то пошло не так! \nОбъявление добавить не удалось...");
-                    return;
+                    MessageBox.Show("Некорректная цена", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
                 }
 
-                MessageBox.Show("Объявление успешно добавленно");
-                this.NavigationService.Navigate(new Uri("Views/MyAdsPage.xaml", UriKind.Relative));
+                if (string.IsNullOrWhiteSpace(tbAddingName.Text))
+                {
+                    MessageBox.Show("Название объявления является обязательным полем.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                if (string.IsNullOrWhiteSpace(tbAddingCity.Text))
+                {
+                    MessageBox.Show("Город является обязательным полем.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                return true;
             }
-            catch
+
+
+            if (!ValidateFields())
+                return;
+
+            ad.Name = tbAddingName.Text;
+            ad.City = tbAddingCity.Text;
+            ad.CategoryId = cbAddingСategories.SelectedIndex + 1;
+            ad.Description = tbAddingDescription.Text;
+            ad.Price = price;
+            if (rbBuy.IsChecked == true)
+                ad.AdTypeId = 1;
+            else
+                ad.AdTypeId = 2;
+
+            ad.Id = (await Context.Api.AddAd(ad)).Id;
+            await Context.Api.UpdateAdPhoto(ad);
+
+            if (Context.AdNow == null)
             {
-                MessageBox.Show("Заполни поля! \nОбъявление добавить не удалось...");
+                MessageBox.Show("Что то пошло не так! \nОбъявление добавить не удалось...");
+                return;
             }
+
+            MessageBox.Show("Объявление успешно добавленно");
+            this.NavigationService.Navigate(new Uri("Views/MyAdsPage.xaml", UriKind.Relative));
 
         }
 

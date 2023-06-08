@@ -21,6 +21,8 @@ namespace AdBoardsDesktop.Views
 
         private async void btnRegister_Click(object sender, RoutedEventArgs e)
         {
+            DateTime? birthday = null;
+
             bool ValidateFields()
             {
                 // Проверка поля tbLogin
@@ -31,7 +33,6 @@ namespace AdBoardsDesktop.Views
                 }
 
                 // Проверка поля tbBirthday
-                DateTime birthday;
                 if (!DateTime.TryParseExact(tbBirthday.Text, "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out birthday))
                 {
                     MessageBox.Show("Введите корректную дату рождения в формате дд.мм.гггг.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -98,6 +99,7 @@ namespace AdBoardsDesktop.Views
             person.Email = tbEmail.Text;
             person.Password = tbPassword1.Password;
             person.ConfirmPassword = tbPassword2.Password;
+            person.Birthday = Convert.ToDateTime(birthday);
 
 
             var result = await Context.Api.Registr(person);
