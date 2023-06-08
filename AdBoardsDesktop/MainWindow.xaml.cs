@@ -1,4 +1,5 @@
-﻿using AdBoardsDesktop.Models.db;
+﻿using AdBoards.ApiClient.Extensions;
+using AdBoardsDesktop.Models.db;
 using System;
 using System.Windows;
 
@@ -44,10 +45,13 @@ namespace AdBoardsDesktop
                 mainFrame.NavigationService.Navigate(new Uri("Views/AuthorizationPage.xaml", UriKind.Relative));
         }
 
-        private void btnToProfile_Click(object sender, RoutedEventArgs e)
+        private async void btnToProfile_Click(object sender, RoutedEventArgs e)
         {
             if (Context.UserNow != null)
+            {
+                Context.UserNow.Person = await Context.Api.GetMe();
                 mainFrame.NavigationService.Navigate(new Uri("Views/ProfilePage.xaml", UriKind.Relative));
+            }
             else
                 mainFrame.NavigationService.Navigate(new Uri("Views/AuthorizationPage.xaml", UriKind.Relative));
         }

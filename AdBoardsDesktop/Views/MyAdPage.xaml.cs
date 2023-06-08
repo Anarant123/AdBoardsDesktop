@@ -37,32 +37,27 @@ namespace AdBoardsDesktop.Views
         private async void btnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
             int price;
-            bool ValidateFields()
+            string ValidateFields()
             {
+                var result = string.Empty;
                 if (!int.TryParse(tbPrice.Text, out price) || price < 0)
-                {
-                    MessageBox.Show("Некорректная цена", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return false;
-                }
+                    result += "Некорректная цена\n";
 
                 if (string.IsNullOrWhiteSpace(tbName.Text))
-                {
-                    MessageBox.Show("Название объявления является обязательным полем.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return false;
-                }
+                    result += "Название объявления является обязательным полем.\n";
 
                 if (string.IsNullOrWhiteSpace(tbCity.Text))
-                {
-                    MessageBox.Show("Город является обязательным полем.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return false;
-                }
+                    result += "Город является обязательным полем.\n";
 
-                return true;
+                return result;
             }
 
 
-            if (!ValidateFields())
+            if (!string.IsNullOrEmpty(ValidateFields()))
+            {
+                MessageBox.Show(ValidateFields(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
+            }
 
             ad.Id = Context.AdNow.Id;
             ad.Name = tbName.Text;
@@ -75,7 +70,8 @@ namespace AdBoardsDesktop.Views
             ad.Price = price;
             ad.City = tbCity.Text;
 
-            ad.Id = (await Context.Api.AdUpdate(ad)).Id;
+            Context.AdNow = await Context.Api.AdUpdate(ad);
+            ad.Id = Context.AdNow.Id;
             if (ad.Photo != null)
                 Context.AdNow = await Context.Api.UpdateAdPhoto(ad);
 
@@ -119,6 +115,14 @@ namespace AdBoardsDesktop.Views
                 {
                     MessageBox.Show(ex.Message);
                 }
+            }
+        }
+
+        private void tbPrice_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+            {
+                e.Handled = true;
             }
         }
     }
