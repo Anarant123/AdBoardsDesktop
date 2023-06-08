@@ -21,7 +21,7 @@ namespace AdBoardsDesktop.Views
 
         private async void btnRegister_Click(object sender, RoutedEventArgs e)
         {
-            DateTime? birthday = null;
+            DateTime birthday = DateTime.Now;
 
             bool ValidateFields()
             {
@@ -72,7 +72,7 @@ namespace AdBoardsDesktop.Views
 
             bool IsValidEmail(string email)
             {
-                string pattern = @"^(\+)[1-9][0-9\-().]{9,15}$";
+                string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
                 Match match = Regex.Match(email, pattern);
                 return match.Success;
             }
@@ -81,7 +81,7 @@ namespace AdBoardsDesktop.Views
             {
                 // Регулярное выражение для проверки корректности номера телефона
                 // В данном примере, мы считаем корректными номера телефонов, состоящие из 10 цифр
-                string pattern = @"^\d{11}$";
+                string pattern = @"^(\+)[1-9][0-9\-().]{9,15}$";
 
                 // Проверка совпадения номера телефона с регулярным выражением
                 Match match = Regex.Match(phone, pattern);
@@ -99,7 +99,7 @@ namespace AdBoardsDesktop.Views
             person.Email = tbEmail.Text;
             person.Password = tbPassword1.Password;
             person.ConfirmPassword = tbPassword2.Password;
-            person.Birthday = Convert.ToDateTime(birthday);
+            person.Birthday = birthday;
 
 
             var result = await Context.Api.Registr(person);

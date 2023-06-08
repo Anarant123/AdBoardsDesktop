@@ -101,20 +101,15 @@ namespace AdBoardsDesktop.Views
 
             bool IsValidEmail(string email)
             {
-                string pattern = @"^(\+)[1-9][0-9\-().]{9,15}$";
+                string pattern = @"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$";
                 Match match = Regex.Match(email, pattern);
                 return match.Success;
             }
 
             bool IsValidPhone(string phone)
             {
-                // Регулярное выражение для проверки корректности номера телефона
-                // В данном примере, мы считаем корректными номера телефонов, состоящие из 10 цифр
-                string pattern = @"^\d{11}$";
-
-                // Проверка совпадения номера телефона с регулярным выражением
+                string pattern = @"^(\+)[1-9][0-9\-().]{9,15}$";
                 Match match = Regex.Match(phone, pattern);
-
                 return match.Success;
             }
 

@@ -28,6 +28,12 @@ namespace AdBoardsDesktop.Views
 
         private async void btnDropClient_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(tbLogin.Text))
+            {
+                MessageBox.Show("Введите корректный логин.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             var result = await Context.Api.DeletePeople(tbLogin.Text);
 
             if (result)

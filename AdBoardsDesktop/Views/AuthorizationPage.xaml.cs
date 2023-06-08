@@ -30,14 +30,12 @@ namespace AdBoardsDesktop.Views
         {
             bool ValidateFields()
             {
-                // Проверка поля tbLogin
                 if (string.IsNullOrWhiteSpace(tbLogin.Text))
                 {
                     MessageBox.Show("Введите логин!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
 
-                // Проверка полей tbPassword1 и tbPassword2
                 if (string.IsNullOrWhiteSpace(tbPassword.Password))
                 {
                     MessageBox.Show("Введите пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);

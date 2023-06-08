@@ -30,11 +30,12 @@ namespace AdBoardsDesktop.Views
             int price;
             bool ValidateFields()
             {
-                if (!int.TryParse(tbAddingPrice.Text, out price))
+                if (!int.TryParse(tbAddingPrice.Text, out price) || price < 0)
                 {
                     MessageBox.Show("Некорректная цена", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                     return false;
                 }
+
 
                 if (string.IsNullOrWhiteSpace(tbAddingName.Text))
                 {
@@ -66,7 +67,7 @@ namespace AdBoardsDesktop.Views
                 ad.AdTypeId = 2;
 
             ad.Id = (await Context.Api.AddAd(ad)).Id;
-            await Context.Api.UpdateAdPhoto(ad);
+            Context.AdNow = await Context.Api.UpdateAdPhoto(ad);
 
             if (Context.AdNow == null)
             {

@@ -36,6 +36,34 @@ namespace AdBoardsDesktop.Views
 
         private async void btnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
+            int price;
+            bool ValidateFields()
+            {
+                if (!int.TryParse(tbPrice.Text, out price) || price < 0)
+                {
+                    MessageBox.Show("Некорректная цена", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                if (string.IsNullOrWhiteSpace(tbName.Text))
+                {
+                    MessageBox.Show("Название объявления является обязательным полем.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                if (string.IsNullOrWhiteSpace(tbCity.Text))
+                {
+                    MessageBox.Show("Город является обязательным полем.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+
+                return true;
+            }
+
+
+            if (!ValidateFields())
+                return;
+
             ad.Id = Context.AdNow.Id;
             ad.Name = tbName.Text;
             ad.Description = tbDescription.Text;
@@ -44,20 +72,19 @@ namespace AdBoardsDesktop.Views
                 ad.AdTypeId = 1;
             else if (rbSell.IsChecked == true)
                 ad.AdTypeId = 2;
-            ad.Price = Convert.ToInt32(tbPrice.Text);
+            ad.Price = price;
             ad.City = tbCity.Text;
 
-            Ad a = await Context.Api.AdUpdate(ad);
+            ad.Id = (await Context.Api.AdUpdate(ad)).Id;
             if (ad.Photo != null)
-                a = await Context.Api.UpdateAdPhoto(ad);
+                Context.AdNow = await Context.Api.UpdateAdPhoto(ad);
 
-            if (a == null)
+            if (Context.AdNow == null)
             {
                 MessageBox.Show("Что то пошло не так\n");
                 return;
             }
 
-            Context.AdNow = a;
             MessageBox.Show("Вы успешно изменили объявление!");
         }
 

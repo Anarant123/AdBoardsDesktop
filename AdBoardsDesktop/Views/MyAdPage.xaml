@@ -65,6 +65,7 @@
                 <StackPanel DockPanel.Dock="Left">
                     <TextBlock Text="Цена:" FontSize="16"/>
                     <TextBox x:Name="tbPrice"
+                             PreviewTextInput="tbPrice_PreviewTextInput"
                              Width="200"/>
                 </StackPanel>
                 <Separator Opacity="0" Width="40"/>
