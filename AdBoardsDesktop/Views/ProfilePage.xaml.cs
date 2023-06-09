@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -109,7 +110,17 @@ namespace AdBoardsDesktop.Views
             p.Email = tbEmail.Text;
             p.Phone = tbPhoneNumber.Text;
 
-            Person person = await Context.Api.PersonUpdate(p);
+            var result = await Context.Api.PersonUpdate(p);
+            Person person;
+            if (result.IsOk)
+                person = result.Ok;
+            else
+            {
+                var error = string.Join(Environment.NewLine, result.Error.Select(x => x.Message));
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             if (p.Photo != null)
                 person = await Context.Api.UpdatePersonPhoto(p);
 
