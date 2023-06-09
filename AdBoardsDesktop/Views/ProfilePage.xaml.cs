@@ -111,15 +111,14 @@ namespace AdBoardsDesktop.Views
             p.Phone = tbPhoneNumber.Text;
 
             var result = await Context.Api.PersonUpdate(p);
-            Person person;
-            if (result.IsOk)
-                person = result.Ok;
-            else
+            if (!result.IsOk)
             {
                 var error = string.Join(Environment.NewLine, result.Error.Select(x => x.Message));
                 MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+            Person person = result.Ok;
 
             if (p.Photo != null)
                 person = await Context.Api.UpdatePersonPhoto(p);
